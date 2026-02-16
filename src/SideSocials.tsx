@@ -31,6 +31,7 @@ const SideSocials = () => {
             target="_blank"
             rel="noopener noreferrer"
             underline="none"
+            // @ts-expect-error any
             onClick={() => clarity.event(`click_${social.name.toLowerCase()}`)}
             sx={{
               color: 'text.secondary',
