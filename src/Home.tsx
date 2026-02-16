@@ -1,16 +1,10 @@
-import { Box, GlobalStyles, Button, useTheme } from '@mui/material';
-import React from 'react';
+import { Box, GlobalStyles } from '@mui/material';
 import Hero from './Hero';
 import Expertise from './Expertise';
 import Experience from './Experience';
 import Contact from './Contact';
-import GlowingGrid from './GlowingGrid';
-import MovingVertices from './MovingVertices';
 
 const Home = () => {
-  const theme = useTheme();
-  const [pattern, setPattern] = React.useState<'squares' | 'vertices'>('squares');
-
   return (
     <Box>
       <GlobalStyles
@@ -21,35 +15,18 @@ const Home = () => {
         }}
       />
 
-      <Box sx={{ position: 'fixed', bottom: 30, right: 30, zIndex: 10 }}>
-        <Button
-          onClick={() => setPattern((p) => (p === 'squares' ? 'vertices' : 'squares'))}
-          variant="outlined"
-          size="small"
-          sx={{
-            color: 'primary.main',
-            borderColor: 'primary.main',
-            backgroundColor: 'rgba(10, 25, 47, 0.8)',
-            backdropFilter: 'blur(4px)',
-            '&:hover': { backgroundColor: 'rgba(10, 25, 47, 0.9)', borderColor: 'primary.light' },
-          }}
-        >
-          Switch Pattern
-        </Button>
-      </Box>
-
       <Box sx={{ position: 'relative', zIndex: 1 }}>
         <Box id="home" sx={{ scrollSnapAlign: 'start' }}>
-          <Hero pattern={pattern} />
+          <Hero />
         </Box>
         <Box id="expertise" component="section" sx={{ scrollSnapAlign: 'start', scrollMarginTop: '80px' }}>
-          <Expertise pattern={pattern} />
+          <Expertise />
         </Box>
         <Box id="experience" component="section" sx={{ scrollSnapAlign: 'start', scrollMarginTop: '80px' }}>
-          <Experience pattern={pattern} />
+          <Experience />
         </Box>
         <Box id="contact" component="section" sx={{ scrollSnapAlign: 'start', scrollMarginTop: '80px' }}>
-          <Contact pattern={pattern} />
+          <Contact />
         </Box>
       </Box>
     </Box>

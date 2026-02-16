@@ -1,16 +1,15 @@
 import { Box } from '@mui/material';
 import { motion } from 'framer-motion';
 
-const ScrollIndicator = () => (
+const ScrollIndicator = ({ onClick }: { onClick?: () => void }) => (
   <Box
     component={motion.div}
+    onClick={onClick}
     initial={{ opacity: 0 }}
-    animate={{ opacity: [0, 1, 1, 0, 0] }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
     transition={{
-      duration: 10,
-      repeat: Infinity,
-      times: [0, 0.1, 0.4, 0.5, 1],
-      delay: 2,
+      duration: 1,
     }}
     sx={{
       position: 'absolute',
@@ -18,9 +17,13 @@ const ScrollIndicator = () => (
       left: '50%',
       transform: 'translateX(-50%)',
       zIndex: 10,
+      cursor: 'pointer',
     }}
   >
     <Box
+      component={motion.div}
+      animate={{ y: [0, 12, 0] }}
+      transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
       sx={(theme) => ({
         width: 28,
         height: 48,
@@ -32,7 +35,7 @@ const ScrollIndicator = () => (
     >
       <Box
         component={motion.div}
-        animate={{ top: [8, 28], opacity: [1, 0] }}
+        animate={{ top: [8, 32], opacity: [1, 0] }}
         transition={{ duration: 1.5, repeat: Infinity, ease: 'easeOut' }}
         sx={(theme) => ({
           position: 'absolute',

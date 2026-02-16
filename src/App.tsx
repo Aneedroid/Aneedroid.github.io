@@ -1,11 +1,18 @@
 import { ThemeProvider, CssBaseline, Box, createTheme } from '@mui/material';
 import React from 'react';
+import { clarity } from 'react-microsoft-clarity';
 import Navbar from './Navbar';
 import Home from './Home';
 import { ColorModeContext } from './ColorModeContext';
+import SideSocials from './SideSocials';
 
 function App() {
-  const [mode, setMode] = React.useState<'light' | 'dark'>('dark');
+  const [mode, setMode] = React.useState<'light' | 'dark'>(() => {
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      return 'dark';
+    }
+    return 'light';
+  });
 
   const colorMode = React.useMemo(
     () => ({
@@ -13,8 +20,15 @@ function App() {
         setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
       },
     }),
-    [],
+    []
   );
+
+  React.useEffect(() => {
+    const clarityId = import.meta.env.VITE_CLARITY_PROJECT_ID;
+    if (clarityId) {
+      clarity.init(clarityId);
+    }
+  }, []);
 
   const theme = React.useMemo(
     () =>
@@ -44,7 +58,7 @@ function App() {
           button: { fontFamily: '"SF Mono", "Fira Code", "Fira Mono", "Roboto Mono", monospace' },
         },
       }),
-    [mode],
+    [mode]
   );
 
   return (
@@ -53,6 +67,7 @@ function App() {
         <CssBaseline />
         <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
           <Navbar />
+          <SideSocials />
           <Box component="main" sx={{ flexGrow: 1 }}>
             <Home />
           </Box>

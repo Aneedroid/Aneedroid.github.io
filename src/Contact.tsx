@@ -2,11 +2,10 @@ import { Box, Container, Typography, Button, useTheme, alpha } from '@mui/materi
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import BackgroundBlob from './BackgroundBlob';
-import GlowingGrid from './GlowingGrid';
 import MovingVertices from './MovingVertices';
 import Footer from './Footer';
 
-const Contact = ({ pattern }: { pattern: 'squares' | 'vertices' }) => {
+const Contact = () => {
   const theme = useTheme();
   const ref = useRef(null);
   const isInView = useInView(ref, { amount: 0.3 });
@@ -21,7 +20,7 @@ const Contact = ({ pattern }: { pattern: 'squares' | 'vertices' }) => {
         justifyContent: 'center',
         alignItems: 'center',
         position: 'relative',
-        pt: 8,
+        py: { xs: 12, md: 8 },
         backgroundColor: 'background.default',
         backgroundImage: `radial-gradient(${alpha(theme.palette.primary.main, theme.palette.mode === 'dark' ? 0.15 : 0.35)} 1px, transparent 1px)`,
         backgroundSize: '30px 30px',
@@ -43,9 +42,7 @@ const Contact = ({ pattern }: { pattern: 'squares' | 'vertices' }) => {
         gradientColor={alpha(theme.palette.primary.main, 0.3)}
       />
 
-      <Box sx={{ position: 'absolute', inset: 0, zIndex: 0 }}>
-        {isInView && (pattern === 'squares' ? <GlowingGrid /> : <MovingVertices />)}
-      </Box>
+      <Box sx={{ position: 'absolute', inset: 0, zIndex: 0 }}>{isInView && <MovingVertices />}</Box>
 
       <Container
         maxWidth="md"
@@ -62,7 +59,7 @@ const Contact = ({ pattern }: { pattern: 'squares' | 'vertices' }) => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: false, amount: 0.3 }}
           transition={{ duration: 0.5 }}
         >
           <Typography
@@ -85,8 +82,8 @@ const Contact = ({ pattern }: { pattern: 'squares' | 'vertices' }) => {
             variant="body1"
             sx={{ color: 'text.secondary', mb: 6, fontSize: '1.1rem', lineHeight: 1.6, maxWidth: '600px', mx: 'auto' }}
           >
-            Although I'm not currently looking for any new opportunities, my inbox is always open. Whether you have a
-            question or just want to say hi, I'll try my best to get back to you!
+            I'm always interested in connecting and exploring new possibilities. Whether you have a question or just
+            want to say hi, I'll try my best to get back to you!
           </Typography>
           <Button
             variant="outlined"

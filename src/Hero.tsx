@@ -1,10 +1,10 @@
-import { Box, Typography, Button, Container, BoxProps, alpha } from '@mui/material';
-import { motion, AnimationProps, Transition, Variants, useInView } from 'framer-motion';
-import { useRef } from 'react';
+import { Box, Typography, Container, alpha, Grid } from '@mui/material';
+import { motion, Variants, useInView, AnimatePresence } from 'framer-motion';
+import { useRef, useState, useEffect } from 'react';
 import BackgroundBlob, { BackgroundBlobProps } from './BackgroundBlob';
 import ScrollIndicator from './ScrollIndicator';
-import GlowingGrid from './GlowingGrid';
 import MovingVertices from './MovingVertices';
+import HeroTerminal from './HeroTerminal';
 
 const blobData: BackgroundBlobProps[] = [
   {
@@ -56,9 +56,22 @@ const AnimatedContent = ({ children }: { children: React.ReactNode }) => (
   </Box>
 );
 
-const Hero = ({ pattern }: { pattern: 'squares' | 'vertices' }) => {
+const Hero = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { amount: 0.3 });
+  const [showScrollIndicator, setShowScrollIndicator] = useState(false);
+
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout>;
+    if (isInView) {
+      timer = setTimeout(() => {
+        setShowScrollIndicator(true);
+      }, 8000);
+    } else {
+      setShowScrollIndicator(false);
+    }
+    return () => clearTimeout(timer);
+  }, [isInView]);
 
   return (
     <Box
@@ -77,67 +90,78 @@ const Hero = ({ pattern }: { pattern: 'squares' | 'vertices' }) => {
       {blobData.map((blob, index) => (
         <BackgroundBlob key={index} {...blob} />
       ))}
-      <Box sx={{ position: 'absolute', inset: 0, zIndex: 0 }}>
-        {isInView && (pattern === 'squares' ? <GlowingGrid /> : <MovingVertices />)}
-      </Box>
+      <Box sx={{ position: 'absolute', inset: 0, zIndex: 0 }}>{isInView && <MovingVertices />}</Box>
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
-        <Box component={motion.div} initial="hidden" animate="visible" variants={contentContainerVariants}>
-          <AnimatedContent>
-            <Typography
-              variant="body1"
-              sx={{
-                color: 'primary.main',
-                fontFamily: '"SF Mono", "Fira Code", "Fira Mono", "Roboto Mono", monospace',
-                mb: 2,
-                ml: 0.5,
-              }}
+        <Grid container spacing={4} alignItems="center">
+          <Grid item xs={12} md={7}>
+            <Box
+              component={motion.div}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: false }}
+              variants={contentContainerVariants}
             >
-              Hi, my name is
-            </Typography>
-          </AnimatedContent>
-          <AnimatedContent>
-            <Typography
-              variant="h1"
-              color="text.primary"
-              sx={{ fontSize: { xs: '3rem', md: '5.5rem' }, fontWeight: 800, letterSpacing: '-0.02em' }}
-            >
-              Aneerudh.
-            </Typography>
-          </AnimatedContent>
-          <AnimatedContent>
-            <Typography
-              variant="h2"
-              color="text.secondary"
-              sx={{ fontSize: { xs: '2rem', md: '4rem' }, mb: 4, fontWeight: 700 }}
-            >
-              I craft{' '}
-              <Box component="span" sx={{ color: 'primary.main' }}>
-                digital experiences.
-              </Box>
-            </Typography>
-          </AnimatedContent>
-          <AnimatedContent>
-            <Typography
-              variant="body1"
-              color="text.secondary"
-              sx={{ maxWidth: '600px', mb: 5, fontSize: '1.1rem', lineHeight: 1.6 }}
-            >
-              I bring ideas to life. Focused on building scalable and intuitive software.
-            </Typography>
-          </AnimatedContent>
-          <AnimatedContent>
-            <Button
-              variant="outlined"
-              color="primary"
-              size="large"
-              sx={{ py: 2, px: 4, fontFamily: '"SF Mono", "Fira Code", "Fira Mono", "Roboto Mono", monospace' }}
-            >
-              Check out my work
-            </Button>
-          </AnimatedContent>
-        </Box>
+              <AnimatedContent>
+                <Typography
+                  variant="body1"
+                  sx={{
+                    color: 'primary.main',
+                    fontFamily: '"SF Mono", "Fira Code", "Fira Mono", "Roboto Mono", monospace',
+                    mb: 2,
+                    ml: 0.5,
+                  }}
+                >
+                  Hi, my name is
+                </Typography>
+              </AnimatedContent>
+              <AnimatedContent>
+                <Typography
+                  variant="h1"
+                  color="text.primary"
+                  sx={{ fontSize: { xs: '3rem', md: '5.5rem' }, fontWeight: 800, letterSpacing: '-0.02em' }}
+                >
+                  Aneerudh.
+                </Typography>
+              </AnimatedContent>
+              <AnimatedContent>
+                <Typography
+                  variant="h2"
+                  color="text.secondary"
+                  sx={{ fontSize: { xs: '2rem', md: '4rem' }, mb: 4, fontWeight: 700 }}
+                >
+                  I craft{' '}
+                  <Box component="span" sx={{ color: 'primary.main' }}>
+                    digital experiences.
+                  </Box>
+                </Typography>
+              </AnimatedContent>
+              <AnimatedContent>
+                <Typography
+                  variant="body1"
+                  color="text.secondary"
+                  sx={{ maxWidth: '600px', mb: 5, fontSize: '1.1rem', lineHeight: 1.6 }}
+                >
+                  I bring ideas to life. Focused on building scalable and intuitive software.
+                </Typography>
+              </AnimatedContent>
+            </Box>
+          </Grid>
+          <Grid item xs={12} md={5} sx={{ display: 'block', mt: { xs: 8, md: 0 } }}>
+            <HeroTerminal />
+          </Grid>
+        </Grid>
       </Container>
-      <ScrollIndicator />
+      <AnimatePresence>
+        {showScrollIndicator && (
+          <ScrollIndicator
+            onClick={() => {
+              setShowScrollIndicator(false);
+              const element = document.getElementById('expertise');
+              if (element) element.scrollIntoView({ behavior: 'smooth' });
+            }}
+          />
+        )}
+      </AnimatePresence>
     </Box>
   );
 };

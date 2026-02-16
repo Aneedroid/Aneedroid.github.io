@@ -1,6 +1,5 @@
 import { Box, BoxProps } from '@mui/material';
 import { motion, AnimationProps, Transition } from 'framer-motion';
-import React from 'react';
 
 export interface BackgroundBlobProps {
   animate: AnimationProps['animate'];
