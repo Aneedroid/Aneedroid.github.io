@@ -1,8 +1,8 @@
 import { Box, BoxProps } from '@mui/material';
-import { motion, AnimationProps, Transition } from 'framer-motion';
+import { motion, MotionProps, Transition } from 'framer-motion';
 
 export interface BackgroundBlobProps {
-  animate: AnimationProps['animate'];
+  animate: MotionProps['animate'];
   transition: Transition;
   sx: BoxProps['sx'];
   gradientColor: string;
