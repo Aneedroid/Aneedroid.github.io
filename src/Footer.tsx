@@ -2,7 +2,6 @@ import { Box, Typography, Link, Stack, IconButton } from '@mui/material';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import DescriptionIcon from '@mui/icons-material/Description';
-import { clarity } from 'react-microsoft-clarity';
 
 const Footer = () => {
   const socials = [
@@ -22,7 +21,7 @@ const Footer = () => {
             target="_blank"
             rel="noopener noreferrer"
             download={social.name === 'Resume' ? 'Aneerudh_Prabhakaran_Resume' : undefined}
-            onClick={() => clarity.event(`click_${social.name.toLowerCase()}`)}
+            onClick={() => window.clarity?.('event', `click_${social.name.toLowerCase()}`)}
             color="inherit"
             size="small"
           >

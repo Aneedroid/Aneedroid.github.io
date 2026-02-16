@@ -2,7 +2,6 @@ import { Box, Link, Tooltip, Zoom } from '@mui/material';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import DescriptionIcon from '@mui/icons-material/Description';
-import { clarity } from 'react-microsoft-clarity';
 
 const socials = [
   { icon: GitHubIcon, url: 'https://github.com/Aneedroid', name: 'GitHub' },
@@ -32,8 +31,7 @@ const SideSocials = () => {
             rel="noopener noreferrer"
             underline="none"
             download={social.name === 'Resume' ? 'Aneerudh_Prabhakaran_Resume' : undefined}
-            // @ts-expect-error any
-            onClick={() => clarity.event(`click_${social.name.toLowerCase()}`)}
+            onClick={() => window.clarity?.('event', `click_${social.name.toLowerCase()}`)}
             sx={{
               color: 'text.secondary',
               transition: 'all 0.25s cubic-bezier(0.645,0.045,0.355,1)',
