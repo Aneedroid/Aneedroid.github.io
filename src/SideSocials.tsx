@@ -5,7 +5,7 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import { clarity } from 'react-microsoft-clarity';
 
 const socials = [
-  { icon: GitHubIcon, url: 'https://github.com', name: 'GitHub' },
+  { icon: GitHubIcon, url: 'https://github.com/Aneedroid', name: 'GitHub' },
   { icon: LinkedInIcon, url: 'https://www.linkedin.com/in/aneerudh-prabhakaran/', name: 'LinkedIn' },
   { icon: DescriptionIcon, url: '/resume.pdf', name: 'Resume' },
 ];
@@ -31,6 +31,7 @@ const SideSocials = () => {
             target="_blank"
             rel="noopener noreferrer"
             underline="none"
+            download={social.name === 'Resume' ? 'Aneerudh_Prabhakaran_Resume' : undefined}
             // @ts-expect-error any
             onClick={() => clarity.event(`click_${social.name.toLowerCase()}`)}
             sx={{
